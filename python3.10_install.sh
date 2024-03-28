@@ -18,3 +18,19 @@ pip3.10 install python-telegram-bot==12.8
 mkdir /home/asterisk
 mkdir /home/asterisk/bot
 git clone https://github.com/CCbIKATHO/telegram_bot.git
+mv telegram_bot bot
+chmod +x /home/asterisk/bot/bot.sh
+touch /etc/systemd/system/telegram-bot.service
+chmod 664 /etc/systemd/system/telegram-bot.service
+tee -a /etc/systemd/system/telegram-bot.service << EOF
+[Unit]
+Description=Telegram bot
+After=network.target
+[Service]
+ExecStart=/home/asterisk/bot/bot.sh
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl start telegram-bot.service
+systemctl enable telegram-bot.service
+systemctl status telegram-bot.service
