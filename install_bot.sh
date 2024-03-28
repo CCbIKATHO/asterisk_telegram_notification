@@ -34,3 +34,35 @@ EOF
 systemctl start telegram-bot.service
 systemctl enable telegram-bot.service
 systemctl status telegram-bot.service
+mkdir /home/asterisk/scripts
+touch /home/asterisk/scripts/GSM1.sh
+touch /home/asterisk/scripts/GSM1_number.sh
+touch /home/asterisk/scripts/GSM1_reload.sh
+touch /home/asterisk/scripts/all.sh
+touch /home/asterisk/scripts/reboot.sh
+tee -a /home/asterisk/scripts/GSM1.sh << EOF
+#!/bin/sh
+printf "dongle ussd GSM1 *101#\nexit" | /usr/sbin/asterisk -vrrrr
+sleep 10
+EOF
+tee -a /home/asterisk/scripts/GSM1_number.sh << EOF
+#!/bin/sh
+printf "dongle ussd GSM1 *161#\nexit" | /usr/sbin/asterisk -vrrrr
+sleep 10
+EOF
+tee -a /home/asterisk/scripts/GSM1_reload.sh << EOF
+#!/bin/sh
+printf "dongle reset GSM1\nexit" | /usr/sbin/asterisk -vrrrr
+sleep 60
+EOF
+tee -a /home/asterisk/scripts/all.sh << EOF
+#!/bin/sh
+printf "dongle ussd GSM1 *101#\nexit" | /usr/sbin/asterisk -vrrrr
+sleep 10
+printf "dongle ussd GSM1 *161#\nexit" | /usr/sbin/asterisk -vrrrr
+sleep 10
+EOF
+tee -a /home/asterisk/scripts/reboot.sh << EOF
+#!/bin/sh
+reboot
+EOF
