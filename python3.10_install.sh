@@ -15,3 +15,5 @@ sudo make altinstall
 python3.10 -m pip install --upgrade pip
 pip3.10 install cython
 pip3.10 install python-telegram-bot==12.8
+mkdir /home/asterisk
+mkdir /home/asterisk/bot
